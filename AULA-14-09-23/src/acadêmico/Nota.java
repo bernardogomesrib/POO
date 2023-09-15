@@ -6,11 +6,10 @@ public class Nota {
 	private double valor;
 	private int peso;
 	
-	public Nota(Scanner leitor) {
-		print("Qual e a nota?");
+	public Nota(Scanner leitor,int peso) {
+		print("Qual é a nota?");
 		this.setValor(leitor.nextDouble());
-		print("Qual é o peso?");
-		this.setPeso(leitor.nextInt());
+		this.setPeso(peso);
 	}
 	public static void print(String s) {
 		System.out.println(s);

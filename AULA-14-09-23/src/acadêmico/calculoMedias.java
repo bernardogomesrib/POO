@@ -15,7 +15,7 @@ public class calculoMedias {
 			String nomeAluno = unidade.getAlunos().get(i).getNome();
 			double media =unidade.getAlunos().get(i).getMedia();
 			somaMedias += media;
-			print("o aluno "+nomeAluno+" tirou uma media de "+media);
+			print("o aluno "+nomeAluno+" tirou uma media de "+String.format("%.2f",media)+" ele está "+situacao(media));
 			if (i == 0) {
 				pior = unidade.getAlunos().get(i);
 				melhor = unidade.getAlunos().get(i);
@@ -33,6 +33,13 @@ public class calculoMedias {
 	}
 	public static void print(String s) {
 		System.out.println(s);
+	}
+	public static String situacao (double media){
+		if (media<7){
+			return "Reprovado";
+		}else{
+			return "Aprovado";
+		}
 	}
 
 }
