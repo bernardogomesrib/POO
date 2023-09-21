@@ -14,14 +14,11 @@ public class App {
         System.out.println("O que você quer fazer?");
         boolean loop = true;
         while(loop){
-            System.out.println("1 - cadastrar usuario");
-            System.out.println("2 - procurar usuario");
-            System.out.println("3 - cadastrar produto");
-            System.out.println("4 - procurar produto");
-            System.out.println("5 - sair");
+            System.out.println("1 - cadastrar usuario\n2 - procurar usuario\n3 - cadastrar produto\n4 - procurar produto\n5 - sair");
             int entrada = sc.nextInt();
             switch(entrada){
                 case 1:
+                    sc.nextLine();
                     System.out.println("Informe o cpf do usuário");
                     p.setCpf(sc.nextLine());
                     System.out.println("Informe o nome do usuário");
@@ -61,6 +58,7 @@ public class App {
                     break;
             }
         }
+        sc.close();
     }   
 }
                                            

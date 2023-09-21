@@ -28,8 +28,9 @@ public class Produto {
     }
     public void imprimeEu(){
         System.out.println("Codigo: "+this.getCodigo()+
-        "\nValor: "+this.getValor()+
-        "\nDescrição: "+this.getDescricao());
+        "\nDescrição: "+this.getDescricao()+
+        "\nValor: "+this.getValor()
+        );
     }
     public void procurarEu(String codigo, Conexao conexao){
         this.setCodigo(getCodigo());
