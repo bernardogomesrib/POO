@@ -19,10 +19,12 @@ public class Connectionn {
             if (conectar == null) {
                 conectar = DriverManager.getConnection(url, user, pass);
                 System.out.println("Conectado");
+                //depois de conectar eu entro crio e entro no banco de dados
                 PreparedStatement prep = conectar.prepareStatement("CREATE DATABASE IF NOT EXISTS gestaoacademica;");
                 prep.execute();
                 prep = conectar.prepareStatement("use gestaoacademica ;");
                 prep.execute();
+                //depois de criar e entrar no banco de dados eu crio as tabelas para usar
                 prep = conectar.prepareStatement("CREATE TABLE if not exists Aluno(id int NOT NULL PRIMARY KEY AUTO_INCREMENT,nome VARCHAR(255) NOT NULL,curso VARCHAR(255) NOT NULL);");
                 prep.execute();
                 prep = conectar.prepareStatement("CREATE TABLE if NOT exists Curso(id int NOT NULL PRIMARY KEY AUTO_INCREMENT,nome VARCHAR(255),descricao VARCHAR(255));");
