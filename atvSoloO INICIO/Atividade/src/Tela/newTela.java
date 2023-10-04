@@ -7,12 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JFileChooser;
 import javax.swing.border.EmptyBorder;
 
-import DB.Conexao;
-import DB.ProdutoDao;
-import Entity.Produto;
+import entity.Produto;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -68,11 +65,6 @@ public class newTela extends JFrame {
 	private JButton btBuscar;
 	private JButton brAtualizar;
 	private JButton btExcluir;
-	private static JButton bt_delImg;
-
-	public static JButton getBt_delImg() {
-		return bt_delImg;
-	}
 
 	/**
 	 * Launch the application.
@@ -83,10 +75,6 @@ public class newTela extends JFrame {
 				try {
 					newTela frame = new newTela();
 					frame.setVisible(true);
-					Conexao conn = new Conexao();
-					ProdutoDao.intialize(conn.getConexao());
-					prod = new Produto();
-					prod.setConnection(conn.getConexao());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -99,7 +87,7 @@ public class newTela extends JFrame {
 	 */
 	public newTela() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(600, 316, 628, 428);
+		setBounds(100, 100, 628, 428);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -115,10 +103,7 @@ public class newTela extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				System.out.println(tf_cod.getText());
-				if(!tf_cod.getText().equals("")){
-					prod.setCod(Long.parseLong(tf_cod.getText()));
-				}
-				
+				prod.setCod(Long.parseLong(tf_cod.getText()));
 
 			}
 		});
@@ -152,12 +137,8 @@ public class newTela extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try{
+					prod.setQuantidade(Integer.parseInt(tf_quantidade.getText()));
 					System.out.println(prod.getQuantidade());
-					if(!tf_quantidade.getText().equals("")){
-						prod.setQuantidade(Integer.parseInt(tf_quantidade.getText()));
-					}
-					
-					
 				}catch(Exception a){
 					a.printStackTrace();
 				}
@@ -177,12 +158,8 @@ public class newTela extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
+					prod.setPreco(Double.parseDouble(tf_preco.getText()));
 					System.out.println(prod.getPreco());
-					if(!tf_preco.getText().equals("")){
-						prod.setPreco(Double.parseDouble(tf_preco.getText()));
-					}
-					
-					
 				} catch (Exception i) {
 					i.printStackTrace();
 				}
@@ -200,15 +177,6 @@ public class newTela extends JFrame {
 		tf_imagem.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				try{					
-					prod.setImagem(new ImageIcon(tf_imagem.getText()));
-                    lb_imagem.setIcon(prod.getImagem());
-					bt_delImg.setVisible(true);
-				}catch(Exception z){
-					prod.setImagem(null);
-					lb_imagem.setIcon(null);
-					bt_delImg.setVisible(false);
-				}
 			}
 		});
 
@@ -227,7 +195,6 @@ public class newTela extends JFrame {
                     tf_imagem.setText(path);
 					prod.setImagem(new ImageIcon(path));
                     lb_imagem.setIcon(prod.getImagem());
-					bt_delImg.setVisible(true);
                 }
             }
 			
@@ -235,26 +202,6 @@ public class newTela extends JFrame {
 		bt_procurar.setBounds(105, 200, 208, 23);
 		contentPane.add(bt_procurar);
 		
-		bt_delImg = new JButton("Excluir imagem");
-		bt_delImg.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tf_imagem.setText("");
-				lb_imagem.setIcon(null);
-				bt_delImg.setVisible(false);
-				try {
-					prod.setImagem(null);
-				} catch (Exception zz) {
-					System.out.println(zz.getLocalizedMessage());
-				}				
-            }
-			
-		});
-		bt_delImg.setBounds(105, 230, 208, 23);
-		contentPane.add(bt_delImg);
-		bt_delImg.setVisible(false);
-
-
-
 		lb_imagem = new JLabel("");
 		lb_imagem.setBounds(358, 11, 244, 300);
 		contentPane.add(lb_imagem);
@@ -262,12 +209,6 @@ public class newTela extends JFrame {
 		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ProdutoDao.cadastraProduto()==1){
-					JOptionPane.showMessageDialog(null, "Produto Cadastrado");
-					ProdutoDao.setTextos(false);
-				}else{
-					JOptionPane.showMessageDialog(null, "Algum erro ocorreu");
-				}
 			}
 		});
 		btCadastrar.setBounds(6, 355, 89, 23);
@@ -276,7 +217,6 @@ public class newTela extends JFrame {
 		btBuscar = new JButton("Buscar");
 		btBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ProdutoDao.buscarProduto();
 			}
 		});
 		btBuscar.setBounds(105, 355, 89, 23);
@@ -285,11 +225,6 @@ public class newTela extends JFrame {
 		brAtualizar = new JButton("Atualizar");
 		brAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ProdutoDao.atualizaProduto() == 1){
-					JOptionPane.showMessageDialog(null, "Produto atualizado");
-				}else{
-					JOptionPane.showMessageDialog(null, "Produto não atualizado");
-				}
 			}
 		});
 		brAtualizar.setBounds(204, 355, 89, 23);
@@ -298,11 +233,6 @@ public class newTela extends JFrame {
 		btExcluir = new JButton("Excluir");
 		btExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ProdutoDao.deletaProduto() == 1){
-					JOptionPane.showMessageDialog(null, "Produto deletado com sucesso");
-				}else{
-					JOptionPane.showMessageDialog(null, "Produto não foi deletado.");
-				}
 			}
 		});
 		btExcluir.setBounds(303, 355, 89, 23);
