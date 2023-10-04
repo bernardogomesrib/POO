@@ -85,6 +85,8 @@ public class ProdutoDao {
             newTela.getTf_preco().setText("");
             newTela.getTf_imagem().setText("");
             newTela.getLb_imagem().setIcon(null);
+            newTela.getBt_delImg().setVisible(false);
+            p.setImagem(null);
         }
     }
     public static int atualizaProduto(){

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JFileChooser;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import DB.Conexao;
 import DB.ProdutoDao;
@@ -20,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 public class newTela extends JFrame {
 
@@ -220,15 +222,30 @@ public class newTela extends JFrame {
 		bt_procurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                	String path = fileChooser.getSelectedFile().getPath();
+                
+				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png","PNG");
+				fileChooser.setFileFilter(filter);
+
+				int returnValue = fileChooser.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					long fileSizeInBytes = selectedFile.length();
+					long fileSizeInKB = fileSizeInBytes / 1024;
+
+					if (fileSizeInKB > 64) {
+						// O arquivo é muito grande
+						JOptionPane.showMessageDialog(null, "O arquivo selecionado é muito grande. Por favor, selecione um arquivo menor de 64KB.");
+					} else {
+						// O arquivo está dentro do limite de tamanho
+						// Continue com o processamento do arquivo
+						String path = fileChooser.getSelectedFile().getPath();
                     tf_imagem.setText(path);
 					prod.setImagem(new ImageIcon(path));
                     lb_imagem.setIcon(prod.getImagem());
 					bt_delImg.setVisible(true);
-                }
+					}
+				}
             }
 			
 		});
